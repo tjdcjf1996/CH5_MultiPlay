@@ -1,0 +1,20 @@
+{
+  "name": "ch5_multiplay",
+  "version": "1.0.0",
+  "description": "CH5 멀티플레이 과제",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
