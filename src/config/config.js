@@ -6,6 +6,9 @@ export const config = {
     PORT: PORT,
     HOST: HOST,
   },
+  client: {
+    version: '1.0.0',
+  },
   packet: {
     totalLength: PACKET_TOTAL_LENGTH,
     TypeLength: PACKET_TYPE_LENGTH,

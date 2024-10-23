@@ -1,4 +1,6 @@
+import { packetParser } from '../../utils/parser/packetParser.js';
 import { config } from '../config/config.js';
+import { PACKET_TYPE } from '../constants/header.js';
 
 export const onData = (socket) => (data) => {
   // 기존 버퍼에 데이터 추가
@@ -14,10 +16,14 @@ export const onData = (socket) => (data) => {
       const packet = socket.buffer.slice(totalHeaderLength, bufferTotalLength);
       socket.buffer = socket.buffer.slice(bufferTotalLength);
 
-      console.log(packet.toString());
+      switch (packetType) {
+        case PACKET_TYPE.PING:
+          break;
+        case PACKET_TYPE.NORMAL:
+          const { handlerId, userId, payload } = packetParser(packet);
 
-      const message = 'Hi, Client.';
-      const bufferMessage = Buffer.from(message);
+          console.log(handlerId, userId, payload);
+      }
     } else {
       break;
     }
