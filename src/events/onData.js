@@ -1,6 +1,7 @@
 import { packetParser } from '../../utils/parser/packetParser.js';
 import { config } from '../config/config.js';
 import { PACKET_TYPE } from '../constants/header.js';
+import { getHandlerById } from '../handlers/index.js';
 
 export const onData = (socket) => (data) => {
   // 기존 버퍼에 데이터 추가
@@ -22,6 +23,9 @@ export const onData = (socket) => (data) => {
         case PACKET_TYPE.NORMAL:
           const { handlerId, userId, payload } = packetParser(packet);
 
+          const handler = getHandlerById(handlerId);
+
+          handler(socket, userId, payload);
           console.log(handlerId, userId, payload);
       }
     } else {
