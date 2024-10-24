@@ -1,6 +1,6 @@
 import { config } from '../../src/config/config.js';
 import { getProtoMessages } from '../../src/init/loadProto.js';
-import { getProtoTypeNameByHandlerId } from './../../src/handler/index.js';
+import { getProtoTypeNameByHandlerId } from '../../src/handlers/index.js';
 
 export const packetParser = (data) => {
   const protoMessages = getProtoMessages();
