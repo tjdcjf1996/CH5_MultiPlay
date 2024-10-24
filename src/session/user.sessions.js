@@ -1,9 +1,12 @@
 import User from '../classes/user.class.js';
 import { userSessions } from './sessions.js';
+import { v4 as uuidV4 } from 'uuid';
 
 export const addUser = (socket, uuid) => {
+  if (!uuid) uuid = uuidV4();
   const user = new User(uuid, socket);
   userSessions.push(user);
+  console.log(user);
   return user;
 };
 
