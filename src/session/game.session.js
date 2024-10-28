@@ -12,9 +12,8 @@ export const removeGame = (id) => {
   });
   if (idx !== -1) return gameSessions.splice(idx, 1)[0];
 };
-export const getGame = (id) => {
-  const findGame = gameSessions.find((game) => game.id === id);
-  if (findGame) return findGame;
+export const getGame = () => {
+  return gameSessions[0];
 };
 export const getAllGame = () => {
   return { ...gameSessions };

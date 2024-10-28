@@ -1,3 +1,5 @@
+import { createLocationPacket } from '../../utils/notification/game.notification.js';
+
 const MAX_PLAYERS = 10;
 
 class Game {
@@ -17,9 +19,21 @@ class Game {
     return this.users.find((user) => user.id === userId);
   }
   removeUser(userId) {
-    this.users = users.filter((user) => user.id !== userId);
+    this.users = this.users.filter((user) => user.id !== userId);
   }
   startGame(userId) {}
+
+  getAllLocation(userId) {
+    const locationData = this.users
+      .filter((user) => user.id !== userId)
+      .map((user) => {
+        console.log(user.id);
+        console.log(userId);
+        const { x, y } = user.calculatePosition(2000);
+        return { id: user.id, x, y };
+      });
+    return createLocationPacket(locationData);
+  }
 }
 
 export default Game;

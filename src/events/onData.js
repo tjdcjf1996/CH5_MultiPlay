@@ -3,7 +3,7 @@ import { config } from '../config/config.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { getHandlerById } from '../handlers/index.js';
 
-export const onData = (socket) => (data) => {
+export const onData = (socket) => async (data) => {
   // 기존 버퍼에 데이터 추가
   socket.buffer = Buffer.concat([socket.buffer, data]);
   // 전체 헤더 길이 구하기
@@ -12,6 +12,7 @@ export const onData = (socket) => (data) => {
   while (socket.buffer.length >= totalHeaderLength) {
     const bufferTotalLength = socket.buffer.readUInt32BE(0);
     const packetType = socket.buffer.readUInt8(config.packet.totalLength);
+
     // 소켓 버퍼의 길이가 데이터 총 길이보다 길 때 추출
     if (socket.buffer.length >= bufferTotalLength) {
       const packet = socket.buffer.slice(totalHeaderLength, bufferTotalLength);
@@ -21,12 +22,10 @@ export const onData = (socket) => (data) => {
         case PACKET_TYPE.PING:
           break;
         case PACKET_TYPE.NORMAL:
-          const { handlerId, userId, payload } = packetParser(packet);
-
+          const { handlerId, userId, payload } = await packetParser(packet);
           const handler = getHandlerById(handlerId);
-
+          console.log(payload);
           handler(socket, userId, payload);
-          console.log(handlerId, userId, payload);
       }
     } else {
       break;

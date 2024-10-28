@@ -1,10 +1,19 @@
 import { HANDLER_IDS } from '../constants/handlerIds.js';
 import { initHandler } from './init.handler.js';
+import locationUpdateHandler from './locationUpdate.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
     protoType: 'initial.InitialPayload',
     handler: initHandler,
+  },
+  [HANDLER_IDS.GAMESTART]: {
+    protoType: 'game.startGame',
+    handler: 1,
+  },
+  [HANDLER_IDS.LOCATION_UPDATE]: {
+    protoType: 'locationRequest.LocationUpdatePayload',
+    handler: locationUpdateHandler,
   },
 };
 
