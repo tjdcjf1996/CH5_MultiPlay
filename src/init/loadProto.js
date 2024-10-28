@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import protobuf from 'protobufjs';
 import { packetNames } from '../protobuf/packetNames.js';
+import { formatDate } from '../../utils/dateFormatter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,10 +40,11 @@ export const loadProtos = async () => {
         protoMessages[packageName][type] = root.lookupType(typeName);
       }
     }
-
-    console.log('[LOAD] Success to load protobuf files');
+    const date = new Date();
+    console.log(`[${formatDate(date)} - LOAD] Success to load protobuf files`);
   } catch (err) {
-    console.error('[FAIL] Fail to load protobuf files');
+    const date = new Date();
+    console.error(`[${formatDate(date)} - FAIL] Fail to load protobuf files`);
   }
 };
 
