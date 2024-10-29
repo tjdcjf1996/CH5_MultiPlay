@@ -33,8 +33,9 @@ class User {
 
   pong(timestamp) {
     const now = Date.now();
+
     this.latency = (now - timestamp) / 2;
-    console.log(`[${this.id}] Pong ${this.latency}`);
+    console.log(this.latency);
   }
 
   calculatePosition(latency) {

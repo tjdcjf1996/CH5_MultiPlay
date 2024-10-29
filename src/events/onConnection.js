@@ -3,6 +3,7 @@ import { onEnd } from './onEnd.js';
 import { onError } from './onError.js';
 
 export const onConnection = (socket) => {
+  socket.setNoDelay(true);
   socket.buffer = Buffer.alloc(0);
   socket.on('data', onData(socket));
   socket.on('end', onEnd(socket));

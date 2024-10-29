@@ -22,13 +22,14 @@ export const onData = (socket) => async (data) => {
 
       switch (packetType) {
         case PACKET_TYPE.PONG:
-          const protoMessages = getProtoMessages();
-          const Ping = protoMessages.common.Ping;
-          const pingMessage = Ping.decode(packet);
-          const user = getUserBySocket(socket);
-          if (!user) throw new Error('유저 못 찾음');
-          user.Pong(pingMessage);
-          console.log(user.latency);
+          {
+            const protoMessages = getProtoMessages();
+            const Ping = protoMessages.common.Ping;
+            const pingMessage = Ping.decode(packet);
+            const timestamp = pingMessage.timestamp.toString();
+            const user = getUserBySocket(socket);
+            user.pong(timestamp);
+          }
           break;
         case PACKET_TYPE.NORMAL:
           const { handlerId, userId, payload } = await packetParser(packet);
