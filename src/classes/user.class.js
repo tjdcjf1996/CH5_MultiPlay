@@ -1,3 +1,5 @@
+import { createPingPacket } from '../../utils/notification/game.notification.js';
+
 class User {
   constructor(socket, id, latency) {
     this.id = id;
@@ -20,6 +22,18 @@ class User {
 
   getNextSequence() {
     return ++this.sequence;
+  }
+
+  ping() {
+    const now = date.now();
+
+    console.log(`[${this.id}] Ping`);
+    this.socket.write(createPingPacket(now));
+  }
+
+  pong(data) {
+    const now = Date.now();
+    this.latency = (now - data.timestamp) / 2;
   }
 
   calculatePosition(latency) {

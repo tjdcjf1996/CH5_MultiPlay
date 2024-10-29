@@ -4,6 +4,7 @@ export const packetNames = {
   },
   common: {
     CommonPacket: 'common.CommonPacket',
+    Ping: 'common.Ping',
   },
   locationRequest: {
     LocationUpdatePayload: 'locationRequest.LocationUpdatePayload',
