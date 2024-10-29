@@ -2,6 +2,8 @@ import { packetParser } from '../../utils/parser/packetParser.js';
 import { config } from '../config/config.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { getHandlerById } from '../handlers/index.js';
+import { getProtoMessages } from '../init/loadProto.js';
+import { getUserBySocket } from '../session/user.sessions.js';
 
 export const onData = (socket) => async (data) => {
   // 기존 버퍼에 데이터 추가
@@ -19,7 +21,14 @@ export const onData = (socket) => async (data) => {
       socket.buffer = socket.buffer.slice(bufferTotalLength);
 
       switch (packetType) {
-        case PACKET_TYPE.PING:
+        case PACKET_TYPE.PONG:
+          const protoMessages = getProtoMessages();
+          const Ping = protoMessages.common.Ping;
+          const pingMessage = Ping.decode(packet);
+          const user = getUserBySocket(socket);
+          if (!user) throw new Error('유저 못 찾음');
+          user.Pong(pingMessage);
+          console.log(user.latency);
           break;
         case PACKET_TYPE.NORMAL:
           const { handlerId, userId, payload } = await packetParser(packet);
