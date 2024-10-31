@@ -56,6 +56,7 @@ class Game {
         // const { x, y } = user.calculatePosition(2000);
         return { id: user.id, x: user.x, y: user.y };
       });
+    if (locationData.length === 0) return -1;
     return createLocationPacket(locationData);
   }
 }
