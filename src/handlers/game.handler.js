@@ -1,5 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
-import { addGame, getGame, getMyGameSession } from '../session/game.session.js';
+import { addGame, getGame, getMyGameSession, removeGame } from '../session/game.session.js';
 import { getUserBySocket } from '../session/user.sessions.js';
 
 export const createGameHandler = () => {
@@ -22,5 +22,9 @@ export const joinGameHandler = async (user) => {
 export const exitGameHandler = async (socket) => {
   const user = getUserBySocket(socket);
   const gameSession = await getMyGameSession(user.id);
-  gameSession.removeUser(user.id);
+  if (gameSession.getUserCount() === 1) {
+    gameSession.removeUser(user.id);
+    gameSession.deleteLatency();
+    removeGame(gameSession.id);
+  }
 };

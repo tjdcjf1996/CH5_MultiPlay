@@ -10,7 +10,11 @@ class Game {
     this.IntervalManager = new IntervalManager();
     this.status = 'wait'; // wait, ing
     this.latency = FRAME_INTERVAL + 1;
-    this.IntervalManager.addUpdateLatency(this.id, this.updateLatency.bind(this), 10000);
+    this.IntervalManager.addUpdateLatency(this.id, this.updateLatency.bind(this), 1000);
+  }
+
+  deleteLatency() {
+    this.IntervalManager.removeUpdateLatency(this.id);
   }
 
   getUserCount() {
@@ -42,7 +46,8 @@ class Game {
         latency = Math.max(user.latency, latency);
       }
 
-      this.latency = Math.max(latency, FRAME_INTERVAL + 1);
+      // this.latency = Math.max(latency, FRAME_INTERVAL + 1);
+      this.latency = latency;
     } else {
       this.latency = FRAME_INTERVAL + 1;
     }
@@ -53,7 +58,7 @@ class Game {
     const locationData = this.users
       .filter((user) => user.id !== userId)
       .map((user) => {
-        // const { x, y } = user.calculatePosition(2000);
+        const { x, y } = user.calculatePosition(this.latency);
         return { id: user.id, x: user.x, y: user.y };
       });
     if (locationData.length === 0) return -1;
