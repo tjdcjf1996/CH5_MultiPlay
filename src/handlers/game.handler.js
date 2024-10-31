@@ -13,15 +13,15 @@ export const createGameHandler = () => {
   return { status: 'fail', message: 'Failed to create game session.' };
 };
 
-export const joinGameHandler = async (user) => {
+export const joinGameHandler = (user) => {
   const gameSession = getGame();
   console.log(gameSession);
   gameSession.addUser(user);
 };
 
-export const exitGameHandler = async (socket) => {
+export const exitGameHandler = (socket) => {
   const user = getUserBySocket(socket);
-  const gameSession = await getMyGameSession(user.id);
+  const gameSession = getMyGameSession(user.id);
   gameSession.removeUser(user.id);
   if (gameSession.getUserCount() === 0) {
     gameSession.deleteLatency();

@@ -17,8 +17,6 @@ export const removeGame = (id) => {
 };
 
 export const getGame = () => {
-  if (gameSessions.length === 0) createGameHandler();
-
   const sessions = gameSessions
     .map((session) => {
       const userCnt = session.getUserCount();
@@ -36,9 +34,9 @@ export const getGame = () => {
   return sessions[0][0];
 };
 
-export const getMyGameSession = async (userId) => {
+export const getMyGameSession = (userId) => {
   for (const gameSession of gameSessions) {
-    if (gameSession.getUser(userId) !== -1) return gameSession;
+    if (gameSession.getUser(userId)) return gameSession;
   }
 };
 

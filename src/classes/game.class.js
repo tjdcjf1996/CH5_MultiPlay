@@ -61,7 +61,7 @@ class Game {
         const { x, y } = user.calculatePosition(this.latency);
         return { id: user.id, x: user.x, y: user.y };
       });
-    if (locationData.length === 0) return -1;
+
     return createLocationPacket(locationData);
   }
 }
