@@ -22,8 +22,8 @@ export const joinGameHandler = async (user) => {
 export const exitGameHandler = async (socket) => {
   const user = getUserBySocket(socket);
   const gameSession = await getMyGameSession(user.id);
-  if (gameSession.getUserCount() === 1) {
-    gameSession.removeUser(user.id);
+  gameSession.removeUser(user.id);
+  if (gameSession.getUserCount() === 0) {
     gameSession.deleteLatency();
     removeGame(gameSession.id);
   }
