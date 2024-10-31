@@ -13,7 +13,7 @@ export const initHandler = async (socket, userId, payload) => {
     // 유저 세션 등록
     const { user, lastX, lastY } = await addUser(socket, userId, payload.latency);
     // 게임 세션 등록
-    joinGameHandler(user);
+    await joinGameHandler(user);
     initResponse = createResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,

@@ -1,17 +1,18 @@
-import { getGame } from '../session/game.session.js';
+import { getMyGameSession } from '../session/game.session.js';
+import { getUserById } from '../session/user.sessions.js';
 
-const locationUpdateHandler = (socket, userId, payload) => {
+const locationUpdateHandler = async (socket, userId, payload) => {
   const { x, y } = payload;
   let user, gameSession;
   try {
-    gameSession = getGame();
-    user = gameSession.getUser(userId);
+    gameSession = await getMyGameSession(userId);
+    user = getUserById(userId);
   } catch (err) {
     console.error(err);
   }
 
   user.updatePosition(x, y);
-  const packet = gameSession.getAllLocation(user.id);
+  const packet = gameSession.getAllLocation(userId);
   socket.write(packet);
 };
 

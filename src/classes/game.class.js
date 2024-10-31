@@ -1,8 +1,7 @@
 import { createLocationPacket } from '../../utils/notification/game.notification.js';
 import { FRAME_INTERVAL } from '../constants/frame.js';
+import { MAX_PLAYERS } from '../constants/sessions.js';
 import IntervalManager from './../managers/interval.manager.js';
-
-const MAX_PLAYERS = 10;
 
 class Game {
   constructor(id) {
@@ -12,6 +11,10 @@ class Game {
     this.status = 'wait'; // wait, ing
     this.latency = FRAME_INTERVAL + 1;
     this.IntervalManager.addUpdateLatency(this.id, this.updateLatency.bind(this), 10000);
+  }
+
+  getUserCount() {
+    return this.users.length;
   }
 
   addUser(user) {

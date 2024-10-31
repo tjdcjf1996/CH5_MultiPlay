@@ -7,7 +7,7 @@ import { loadProtos } from './loadProto.js';
 export const initServer = async () => {
   try {
     await loadProtos();
-    createGameHandler();
+    // createGameHandler();
     await testAllConnections(pools);
   } catch (err) {
     const date = new Date();
