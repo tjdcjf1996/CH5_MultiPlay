@@ -23,14 +23,12 @@ export const onData = (socket) => (data) => {
       switch (packetType) {
         case PACKET_TYPE.PONG:
           {
-            console.time('onData');
             const protoMessages = getProtoMessages();
             const Ping = protoMessages.common.Ping;
             const pingMessage = Ping.decode(packet);
             const timestamp = pingMessage.timestamp.toString();
             const user = getUserBySocket(socket);
             user.pong(timestamp);
-            console.timeEnd('onData');
           }
           break;
         case PACKET_TYPE.NORMAL:

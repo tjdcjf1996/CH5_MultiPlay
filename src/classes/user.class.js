@@ -26,14 +26,11 @@ class User {
 
   ping() {
     const now = Date.now();
-
-    console.log(`[${this.id}] Ping`);
     this.socket.write(createPingPacket(now));
   }
 
   pong(timestamp) {
     const now = Date.now();
-
     this.latency = (now - timestamp) / 2;
     console.log(this.latency);
   }

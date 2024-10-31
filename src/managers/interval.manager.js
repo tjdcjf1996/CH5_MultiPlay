@@ -21,8 +21,18 @@ class IntervalManager extends BaseManager {
     }
   }
 
-  addUpdatePosition(playerId, callback, interval) {
-    this.addPlayer(playerId, callback, interval, 'updatePosition');
+  addUpdateLatency(gameSessionId, callback, interval) {
+    if (!this.intervals.has(gameSessionId)) {
+      this.intervals.set(gameSessionId, setInterval(callback, interval));
+    }
+  }
+
+  removeUpdateLatency(gameSessionId) {
+    if (this.intervals.has(gameSessionId)) {
+      const latency = this.intervals.get(gameSessionId);
+      clearInterval(latency);
+      this.intervals.delete(gameSessionId);
+    }
   }
 
   removeInterval(playerId, type) {
