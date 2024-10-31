@@ -5,7 +5,7 @@ import { getHandlerById } from '../handlers/index.js';
 import { getProtoMessages } from '../init/loadProto.js';
 import { getUserBySocket } from '../session/user.sessions.js';
 
-export const onData = (socket) => async (data) => {
+export const onData = (socket) => (data) => {
   // 기존 버퍼에 데이터 추가
   socket.buffer = Buffer.concat([socket.buffer, data]);
   // 전체 헤더 길이 구하기
@@ -23,16 +23,18 @@ export const onData = (socket) => async (data) => {
       switch (packetType) {
         case PACKET_TYPE.PONG:
           {
+            console.time('onData');
             const protoMessages = getProtoMessages();
             const Ping = protoMessages.common.Ping;
             const pingMessage = Ping.decode(packet);
             const timestamp = pingMessage.timestamp.toString();
             const user = getUserBySocket(socket);
             user.pong(timestamp);
+            console.timeEnd('onData');
           }
           break;
         case PACKET_TYPE.NORMAL:
-          const { handlerId, userId, payload } = await packetParser(packet);
+          const { handlerId, userId, payload } = packetParser(packet);
           const handler = getHandlerById(handlerId);
 
           handler(socket, userId, payload);

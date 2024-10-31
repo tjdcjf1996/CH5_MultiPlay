@@ -2,7 +2,7 @@ import { config } from '../../src/config/config.js';
 import { getProtoMessages } from '../../src/init/loadProto.js';
 import { getProtoTypeNameByHandlerId } from '../../src/handlers/index.js';
 
-export const packetParser = async (data) => {
+export const packetParser = (data) => {
   const protoMessages = getProtoMessages();
   // 공통 패킷
   const Packet = protoMessages.common.CommonPacket;
