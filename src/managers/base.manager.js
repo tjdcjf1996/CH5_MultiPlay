@@ -1,3 +1,5 @@
+// 상속용 클래스
+
 class BaseManager {
   constructor() {
     if (new.target === BaseManager) {

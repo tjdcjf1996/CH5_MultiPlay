@@ -1,30 +1,34 @@
 import { v4 as uuidV4 } from 'uuid';
-import { addGame, getGame, getMyGameSession, removeGame } from '../session/game.session.js';
+import {
+  addGameSession,
+  getGameSession,
+  getMyGameSession,
+  removeGameSession,
+} from '../session/game.session.js';
 import { getUserBySocket } from '../session/user.sessions.js';
 
-export const createGameHandler = () => {
+export const createGameSession = () => {
   const uuid = uuidV4();
-  const createdGameSession = addGame(uuid);
+  // 게임 세션 아이디는 uuid 활용 생성
+  const createdGameSession = addGameSession(uuid);
   if (createdGameSession) {
     console.log(`[GAME_SESSION] Game session successfully created. - ${createdGameSession.id}`);
-    return { status: 'success', message: 'Game session successfully created.' };
   }
   console.log(`[FAIL] Failed to create game session`);
-  return { status: 'fail', message: 'Failed to create game session.' };
 };
 
-export const joinGameHandler = (user) => {
-  const gameSession = getGame();
+export const joinGameSession = (user) => {
+  const gameSession = getGameSession();
   console.log(gameSession);
   gameSession.addUser(user);
 };
 
-export const exitGameHandler = (socket) => {
+export const exitGameSession = (socket) => {
   const user = getUserBySocket(socket);
   const gameSession = getMyGameSession(user.id);
   gameSession.removeUser(user.id);
   if (gameSession.getUserCount() === 0) {
     gameSession.deleteLatency();
-    removeGame(gameSession.id);
+    removeGameSession(gameSession.id);
   }
 };
