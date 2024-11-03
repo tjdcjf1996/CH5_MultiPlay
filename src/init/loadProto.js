@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import protobuf from 'protobufjs';
-import { packetNames } from '../protobuf/packetNames.js';
 import { formatDate } from '../../utils/dateFormatter.js';
 
 // 현재 파일의 경로와 디렉토리를 가져옴
@@ -40,15 +39,7 @@ export const loadProtos = async () => {
 
     // 모든 .proto 파일을 로드하여 병합
     await Promise.all(protoFiles.map((file) => root.load(file)));
-
-    // packetNames에서 각 패키지 이름과 타입을 기반으로 protoMessages에 저장
-    for (const [packageName, types] of Object.entries(packetNames)) {
-      protoMessages[packageName] = {};
-      for (const [type, typeName] of Object.entries(types)) {
-        protoMessages[packageName][type] = root.lookupType(typeName); // .proto 타입을 찾아 저장
-      }
-    }
-
+    getTypes(root);
     const date = new Date();
     console.log(`[${formatDate(date)} - LOAD] Success to load protobuf files`);
   } catch (err) {
@@ -56,6 +47,27 @@ export const loadProtos = async () => {
     console.error(`[${formatDate(date)} - FAIL] Fail to load protobuf files`);
   }
 };
+
+function getTypes(root, prefix = '') {
+  Object.keys(root.nested).forEach((key) => {
+    const nestedObject = root.nested[key];
+    const fullName = prefix ? `${prefix}.${key}` : key;
+
+    if (nestedObject.nested) {
+      // 패키지인 경우 재귀적으로 탐색
+      getTypes(nestedObject, fullName);
+    } else if (nestedObject instanceof protobuf.Type) {
+      // 메시지 타입일 경우만 저장
+      const [packageName, type] = fullName.split('.');
+
+      // 패키지 이름이 이미 존재하지 않으면 객체 초기화
+      if (!protoMessages[packageName]) protoMessages[packageName] = {};
+
+      // 메시지 타입을 protoMessages 객체에 저장
+      protoMessages[packageName][type] = root.lookupType(fullName);
+    }
+  });
+}
 
 // protoMessages 객체 얕은복사 후 반환
 export const getProtoMessages = () => {
