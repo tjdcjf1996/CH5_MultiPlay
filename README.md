@@ -1,12 +1,12 @@
 <p align="center">
     <img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2F0fc84f35-a558-4a5c-a19b-f038d8c4bb6d%2FUntitled.png?table=block&id=d55aaf8b-d1f5-4c00-9ac3-04699d0877f6&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=960&userId=&cache=v2" align="center" width="30%">
 </p>
-<p align="center"><h1 align="center">CH5_MULTIPLAY</h1></p>
+<p align="center"><h1 align="center">MULTIPLAY</h1></p>
 <br>
 ## Project Structure
 
 ```sh
-└── CH5_MultiPlay/
+└── MultiPlay/
     ├── README.md
     ├── package-lock.json
     ├── package.json
